@@ -10,6 +10,10 @@ namespace MIPS_ScoreBoard
     {
         static public List<FunctionalUnit> Func;
         static Dictionary<string, string> table;
+        static AllFunction()
+        {
+            Init();
+        }
         static public void Init()
         {
             table = new Dictionary<string, string>();
@@ -25,7 +29,7 @@ namespace MIPS_ScoreBoard
             List<FunctionalUnit> possible = new List<FunctionalUnit>();
             foreach(FunctionalUnit f in Func)
             {
-                if(f.Name.Contains(table[ins.OP]))
+                if(f.GetData("Name").Contains(table[ins.OP]))
                 {
                     possible.Add(f);
                 }
@@ -38,6 +42,18 @@ namespace MIPS_ScoreBoard
                 }
             }
             return possible.First();
+        }
+
+        internal static FunctionalUnit GetFunctionUnitName(string name)
+        {
+            foreach (FunctionalUnit f in Func)
+            {
+                if (f.GetData("Name").Equals(name))
+                {
+                    return f;
+                }
+            }
+            return null;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace MIPS_ScoreBoard
         {
             instruction = new List<Instruction>();
             StreamReader fin=new StreamReader(file);
-            int line = 1;
+            uint line = 1;
             while(!fin.EndOfStream)
             {
                 string inp=fin.ReadLine().Trim();
@@ -36,7 +36,7 @@ namespace MIPS_ScoreBoard
         {
             foreach(Instruction ins in instruction)
             {
-                if(ins.WR==0)
+                if(ins.GetStage("WR")==0)
                 {
                     return false;
                 }
@@ -44,9 +44,9 @@ namespace MIPS_ScoreBoard
             return true;
         }
 
-        internal static Instruction GetInstruction(int line)
+        internal static Instruction GetInstruction(uint line)
         {
-            return instruction[line - 1];
+            return instruction[Convert.ToInt32(line - 1)];
         }
     }
 }

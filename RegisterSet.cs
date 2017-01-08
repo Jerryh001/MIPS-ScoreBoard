@@ -25,7 +25,7 @@ namespace MIPS_ScoreBoard
         {
             if(i.type==type.FReg)
             {
-                return reg[Convert.ToUInt32(i.value)];
+                return reg[Convert.ToUInt32(i.value)/2];
             }
             else
             {
@@ -36,8 +36,16 @@ namespace MIPS_ScoreBoard
         {
             if (i.type == type.FReg)
             {
-                reg[Convert.ToUInt32(i.value)] = s;
+                reg[Convert.ToUInt32(i.value)/2] = s;
             }
+        }
+        static public void SetRaw(string i, string s)
+        {
+            reg[Convert.ToUInt32(i.Substring(1)) / 2] = s;
+        }
+        static public void Clear(factor i)
+        {
+            Set(i, "");
         }
     }
 }

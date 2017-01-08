@@ -8,40 +8,67 @@ namespace MIPS_ScoreBoard
 {
     class FunctionalUnit
     {
-        public int Line;
-        public string Name, Op = "", Qj = "", Qk = "";
-        public bool Busy
+        public uint Line;
+        public bool Busy { get { return Op != ""; } }
+        public bool Rj { get { return Data["Qj"] == ""; } }
+        public bool Rk { get { return Data["Qk"] == ""; } }
+        public factor Fi { get { return Line > 0 ? InstructionSet.GetInstruction(Line).Dest : new factor(); } }
+        public factor Fj { get { return Line > 0 ? InstructionSet.GetInstruction(Line).S1 : new factor(); } }
+        public factor Fk { get { return Line > 0 ? InstructionSet.GetInstruction(Line).S2 : new factor(); } }
+        public string Op { get { return Line > 0 ? InstructionSet.GetInstruction(Line).OP : ""; } }
+        uint Time = 0;
+        uint Period;
+        Dictionary<string, string> Data = new Dictionary<string, string>();
+        public FunctionalUnit(string name, uint p)
         {
-            get { return Op != ""; }
-        }
-        public bool Rj
-        {
-            get { return Qj == ""; }
-        }
-        public bool Rk
-        {
-            get { return Qk == ""; }
-        }
-        public factor Fi, Fj, Fk;
-        public int Time = 0;
-        public int Period;
-        public FunctionalUnit(string name, int p)
-        {
-            Name = name;
+            Data.Add("Name", name);
+            Data.Add("Qj", "");
+            Data.Add("Qk", "");
             Period = p;
         }
         public string[] GetItem()
         {
-            return new string[] { Name, (Time > 0 ? Time.ToString() : ""), Busy.ToString(), Op, Fi.ToString(), Fj.ToString(), Fk.ToString(), Qj, Qk, Rj.ToString(), Rk.ToString() };
+            return new string[] { Data["Name"], (Time > 0 ? Time.ToString() : ""), Busy ? "Yes" : "No", Op, Fi.ToString(), Fj.ToString(), Fk.ToString(), Data["Qj"], Data["Qk"], Line > 0 ? (Rj ? "Yes" : "No") : "", Line > 0 ? (Rk ? "Yes" : "No") : "" };
         }
-
-        internal bool NotCauseRAW(int step)
+        public uint GetTime()
+        {
+            return Time;
+        }
+        public string GetData(string s)
+        {
+            switch(s)
+            {
+                case "Line":
+                    return Line.ToString();
+                case "Time":
+                    return Time.ToString();
+                default:
+                    return Data[s];
+            }
+        }
+            
+        public void SetData(string colnum,string s)
+        {
+            switch (colnum)
+            {
+                case "Line":
+                    Line = Convert.ToUInt32(s);
+                    break;
+                case "Time":
+                    Time = Convert.ToUInt32(s);
+                    break;
+                default:
+                    Data[colnum] = s;
+                    break;
+            }
+        }
+        internal bool NotCauseRAW(uint step)
         {
             foreach (FunctionalUnit f1 in AllFunction.Func)
             {
-                if (f1.Line == 0|| this == f1) continue;
+                if (f1.Line == 0 || this == f1) continue;
                 Instruction ins = InstructionSet.GetInstruction(f1.Line);
-                if (Line > f1.Line && (Fi.Equals(f1.Fj) || Fi.Equals(f1.Fk)) && (ins.RO == 0 || ins.RO == step))
+                if (Line > f1.Line && (Fi.Equals(f1.Fj) || Fi.Equals(f1.Fk)) && (ins.GetStage("RO") == 0 || ins.GetStage("RO") == step))
                 {
                     return false;
                 }
@@ -49,29 +76,76 @@ namespace MIPS_ScoreBoard
             return true;
         }
 
-        internal void Issue(Instruction ins)
+        internal void Execute(uint step)
         {
-            Op = ins.OP;
-            Fi = ins.Dest;
-            Fj = ins.S1;
-            Fk = ins.S2;
-            Qj = Fj.IsFReg() ? "a" : "";
-            Qk = Fk.IsFReg() ? "a" : "";
+            DifftableList.SetValueFunc(step, Data["Name"], "Time", Period.ToString());
+            Time = Period;
+        }
+
+        internal void Issue(Instruction ins,uint step)
+        {
+            DifftableList.SetValueFunc(step, Data["Name"], "Line", ins.line.ToString());
             Line = ins.line;
+            string v = Fj.IsFReg() ? "temp" : "";
+            DifftableList.SetValueFunc(step,Data["Name"], "Qj", v);
+            Data["Qj"] = v;
+            v = Fk.IsFReg() ? "temp" : "";
+            DifftableList.SetValueFunc(step, Data["Name"], "Qk", v);
+            Data["Qk"] = v;
+
         }
-        internal void WriteResult()
+        internal void WriteResult(uint step)
         {
-            Clear();
+            Clear(step);
         }
-        void Clear()
+        void Clear(uint step)
         {
-            Op = "";
+            DifftableList.SetValueFunc(step, Data["Name"], "Line", "0");
             Line = 0;
-            Fi = new factor();
-            Fj = new factor();
-            Fk = new factor();
-            Qj = "";
-            Qk = "";
+            DifftableList.SetValueFunc(step, Data["Name"], "Qj", "");
+            DifftableList.SetValueFunc(step, Data["Name"], "Qk", "");
+            Data["Qj"] = "";
+            Data["Ok"] = "";
+        }
+
+        internal void Tick(uint step)
+        {
+            if (Time > 0)
+            {
+                DifftableList.SetValueFunc(step, Data["Name"], "Time", (Time-1).ToString());
+                Time--;
+                if (Time == 0)
+                {
+                    Instruction ins = InstructionSet.GetInstruction(Line);
+                    ins.ExecuteComp(step);
+                }
+            }
+        }
+
+        internal void ReadyCheck(uint step)
+        {
+            if (Fj.IsFReg() && !Rj)
+            {
+                string v = RegisterSet.Get(Fj);
+                DifftableList.SetValueFunc(step, Data["Name"], "Qj", v);
+                Data["Qj"] = v;
+                if (Data["Qj"] == Data["Name"])
+                {
+                    DifftableList.SetValueFunc(step, Data["Name"], "Qj", "");
+                    Data["Qj"] = "";
+                }
+            }
+            if (Fk.IsFReg() && !Rk)
+            {
+                string v = RegisterSet.Get(Fk);
+                DifftableList.SetValueFunc(step, Data["Name"], "Qk", v);
+                Data["Qk"] = v;
+                if (Data["Qk"] == Data["Name"])
+                {
+                    DifftableList.SetValueFunc(step, Data["Name"], "Qk", "");
+                    Data["Qk"] = "";
+                }
+            }
         }
     }
 }

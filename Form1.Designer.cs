@@ -61,14 +61,15 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_last = new System.Windows.Forms.Button();
+            this.button_next = new System.Windows.Forms.Button();
+            this.button_back = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
+            this.skipbox = new System.Windows.Forms.CheckBox();
+            this.button_first = new System.Windows.Forms.Button();
             this.button_open = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.stepnow = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.FunctionalUnitStatus = new System.Windows.Forms.ListView();
@@ -99,7 +100,7 @@
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stepnow)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -239,7 +240,8 @@
             this.InstructionStatus.Location = new System.Drawing.Point(0, 0);
             this.InstructionStatus.MultiSelect = false;
             this.InstructionStatus.Name = "InstructionStatus";
-            this.InstructionStatus.Size = new System.Drawing.Size(862, 266);
+            this.InstructionStatus.Size = new System.Drawing.Size(897, 266);
+            this.InstructionStatus.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.InstructionStatus.TabIndex = 1;
             this.InstructionStatus.TabStop = false;
             this.InstructionStatus.UseCompatibleStateImageBehavior = false;
@@ -251,7 +253,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(862, 266);
+            this.panel1.Size = new System.Drawing.Size(897, 266);
             this.panel1.TabIndex = 3;
             // 
             // groupBox1
@@ -262,84 +264,97 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(635, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(227, 109);
+            this.groupBox1.Size = new System.Drawing.Size(262, 109);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.button3);
-            this.panel5.Controls.Add(this.button2);
-            this.panel5.Controls.Add(this.button1);
+            this.panel5.Controls.Add(this.button_last);
+            this.panel5.Controls.Add(this.button_next);
+            this.panel5.Controls.Add(this.button_back);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 48);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(5);
-            this.panel5.Size = new System.Drawing.Size(221, 33);
+            this.panel5.Size = new System.Drawing.Size(256, 33);
             this.panel5.TabIndex = 2;
             // 
-            // button3
+            // button_last
             // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.Location = new System.Drawing.Point(145, 5);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(71, 23);
-            this.button3.TabIndex = 12;
-            this.button3.Text = "顯示結果";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button_last.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_last.Location = new System.Drawing.Point(145, 5);
+            this.button_last.Name = "button_last";
+            this.button_last.Size = new System.Drawing.Size(106, 23);
+            this.button_last.TabIndex = 12;
+            this.button_last.Text = "顯示結果";
+            this.button_last.UseVisualStyleBackColor = true;
+            this.button_last.Click += new System.EventHandler(this.button_last_Click);
             // 
-            // button2
+            // button_next
             // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button2.Location = new System.Drawing.Point(75, 5);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(70, 23);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "下一步";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button_next.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_next.Location = new System.Drawing.Point(75, 5);
+            this.button_next.Name = "button_next";
+            this.button_next.Size = new System.Drawing.Size(70, 23);
+            this.button_next.TabIndex = 11;
+            this.button_next.Text = "下一步";
+            this.button_next.UseVisualStyleBackColor = true;
+            this.button_next.Click += new System.EventHandler(this.button_next_Click);
             // 
-            // button1
+            // button_back
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button1.Location = new System.Drawing.Point(5, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(70, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "上一步";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_back.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_back.Location = new System.Drawing.Point(5, 5);
+            this.button_back.Name = "button_back";
+            this.button_back.Size = new System.Drawing.Size(70, 23);
+            this.button_back.TabIndex = 10;
+            this.button_back.Text = "上一步";
+            this.button_back.UseVisualStyleBackColor = true;
+            this.button_back.Click += new System.EventHandler(this.button_back_Click);
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.button4);
+            this.panel4.Controls.Add(this.skipbox);
+            this.panel4.Controls.Add(this.button_first);
             this.panel4.Controls.Add(this.button_open);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(3, 18);
             this.panel4.Margin = new System.Windows.Forms.Padding(0);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(5);
-            this.panel4.Size = new System.Drawing.Size(221, 30);
+            this.panel4.Size = new System.Drawing.Size(256, 30);
             this.panel4.TabIndex = 14;
             // 
-            // button4
+            // skipbox
             // 
-            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button4.Location = new System.Drawing.Point(115, 5);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(101, 20);
-            this.button4.TabIndex = 13;
-            this.button4.Text = "回到第一步";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.skipbox.AutoSize = true;
+            this.skipbox.Checked = true;
+            this.skipbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.skipbox.Location = new System.Drawing.Point(167, 8);
+            this.skipbox.Name = "skipbox";
+            this.skipbox.Size = new System.Drawing.Size(84, 16);
+            this.skipbox.TabIndex = 14;
+            this.skipbox.Text = "跳過空回合";
+            this.skipbox.UseVisualStyleBackColor = true;
+            // 
+            // button_first
+            // 
+            this.button_first.Dock = System.Windows.Forms.DockStyle.Left;
+            this.button_first.Location = new System.Drawing.Point(75, 5);
+            this.button_first.Name = "button_first";
+            this.button_first.Size = new System.Drawing.Size(86, 20);
+            this.button_first.TabIndex = 13;
+            this.button_first.Text = "回到第一步";
+            this.button_first.UseVisualStyleBackColor = true;
+            this.button_first.Click += new System.EventHandler(this.button_first_Click);
             // 
             // button_open
             // 
             this.button_open.Dock = System.Windows.Forms.DockStyle.Left;
             this.button_open.Location = new System.Drawing.Point(5, 5);
             this.button_open.Name = "button_open";
-            this.button_open.Size = new System.Drawing.Size(110, 20);
+            this.button_open.Size = new System.Drawing.Size(70, 20);
             this.button_open.TabIndex = 1;
             this.button_open.Text = "開啟檔案";
             this.button_open.UseVisualStyleBackColor = true;
@@ -347,31 +362,37 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.numericUpDown1);
+            this.panel3.Controls.Add(this.stepnow);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(3, 81);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(221, 25);
+            this.panel3.Size = new System.Drawing.Size(256, 25);
             this.panel3.TabIndex = 9;
             // 
-            // numericUpDown1
+            // stepnow
             // 
-            this.numericUpDown1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDown1.Location = new System.Drawing.Point(38, 0);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(141, 22);
-            this.numericUpDown1.TabIndex = 7;
-            this.numericUpDown1.TabStop = false;
-            this.numericUpDown1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.stepnow.AutoSize = true;
+            this.stepnow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stepnow.Location = new System.Drawing.Point(38, 0);
+            this.stepnow.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.stepnow.Name = "stepnow";
+            this.stepnow.Size = new System.Drawing.Size(176, 22);
+            this.stepnow.TabIndex = 7;
+            this.stepnow.TabStop = false;
+            this.stepnow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.stepnow.ValueChanged += new System.EventHandler(this.stepnow_ValueChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label2.Location = new System.Drawing.Point(179, 0);
+            this.label2.Location = new System.Drawing.Point(214, 0);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(5);
             this.label2.Size = new System.Drawing.Size(42, 22);
@@ -443,7 +464,7 @@
             this.RegisterResultStatus.MultiSelect = false;
             this.RegisterResultStatus.Name = "RegisterResultStatus";
             this.RegisterResultStatus.ShowGroups = false;
-            this.RegisterResultStatus.Size = new System.Drawing.Size(862, 43);
+            this.RegisterResultStatus.Size = new System.Drawing.Size(897, 43);
             this.RegisterResultStatus.TabIndex = 6;
             this.RegisterResultStatus.TabStop = false;
             this.RegisterResultStatus.UseCompatibleStateImageBehavior = false;
@@ -456,7 +477,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel2.Location = new System.Drawing.Point(0, 266);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(862, 109);
+            this.panel2.Size = new System.Drawing.Size(897, 109);
             this.panel2.TabIndex = 8;
             // 
             // Form1
@@ -464,22 +485,24 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(862, 418);
+            this.ClientSize = new System.Drawing.Size(897, 418);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.RegisterResultStatus);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
-            this.Text = "Form1";
+            this.Text = "ScoreBoard";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stepnow)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -493,18 +516,19 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView FunctionalUnitStatus;
         private System.Windows.Forms.ListView RegisterResultStatus;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown stepnow;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button_open;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_first;
+        private System.Windows.Forms.Button button_last;
+        private System.Windows.Forms.Button button_next;
+        private System.Windows.Forms.Button button_back;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.CheckBox skipbox;
     }
 }
 

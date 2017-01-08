@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllFunction.cs" />
+    <Compile Include="Difftable.cs" />
+    <Compile Include="DifftableList.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

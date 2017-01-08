@@ -12,7 +12,8 @@ namespace MIPS_ScoreBoard
 {
     public partial class Form1 : Form
     {
-        int maxstep = 0;
+        uint maxstep = 0;
+        uint now;
         public Form1()
         {
             InitializeComponent();
@@ -34,9 +35,6 @@ namespace MIPS_ScoreBoard
             }
             label2.Text = "/"+maxstep.ToString();
         }
-
-
-
         private void button_open_Click(object sender, EventArgs e)
         {
             if(openFileDialog.ShowDialog()==DialogResult.OK)
@@ -45,55 +43,81 @@ namespace MIPS_ScoreBoard
                 InstructionSet.ReadFile(openFileDialog.FileName);
                 AllFunction.Init();
                 RegisterSet.Init();
+                DifftableList.Init();
                 Display.ShowInstruction(InstructionStatus);
-                maxstep = SBAlgo.Slove(InstructionStatus, FunctionalUnitStatus, RegisterResultStatus);
+                maxstep = SBAlgo.Slove();
+                Display.Update(InstructionStatus, FunctionalUnitStatus, RegisterResultStatus);
                 label2.Text = "/" + maxstep.ToString();
-                numericUpDown1.Value = maxstep;
+                stepnow.Maximum = maxstep;
+                stepnow.Value = now = maxstep;
             }
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void stepnow_ValueChanged(object sender, EventArgs e)
         {
-            int v = Convert.ToInt32(numericUpDown1.Value);
-            if(v>maxstep)
+            DifftableList.Goto(now, Convert.ToUInt32(stepnow.Value));
+            Display.Update(InstructionStatus, FunctionalUnitStatus, RegisterResultStatus);
+            while (skipbox.Checked&&Display.NothingChange)
             {
-                numericUpDown1.Value = maxstep;
-                return;
+                if(now > Convert.ToUInt32(stepnow.Value))
+                {
+                    try
+                    {
+                        stepnow.Value--;
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+                else if (now < Convert.ToUInt32(stepnow.Value))
+                {
+                    try
+                    {
+                        stepnow.Value++;
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
             }
-            if(v<0)
+            now = Convert.ToUInt32(stepnow.Value);
+        }
+        private void button_first_Click(object sender, EventArgs e)
+        {
+            stepnow.Value = 0;
+        }
+        private void button_last_Click(object sender, EventArgs e)
+        {
+            stepnow.Value = maxstep;
+        }
+
+        private void button_next_Click(object sender, EventArgs e)
+        {
+            try
             {
-                numericUpDown1.Value = 0;
-                return;
+                stepnow.Value++;
             }
-            InstructionSet.ReadFile(openFileDialog.FileName);
-            AllFunction.Init();
-            RegisterSet.Init();
-            Display.ShowInstruction(InstructionStatus);
-            SBAlgo.Slove(InstructionStatus, FunctionalUnitStatus, RegisterResultStatus, (v));
-        }
+            catch
+            {
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            numericUpDown1.Value = 0;
-            numericUpDown1_ValueChanged(sender, e);
+            }
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void button_back_Click(object sender, EventArgs e)
         {
-            numericUpDown1.Value--;
-            numericUpDown1_ValueChanged(sender, e);
-        }
+            try
+            {
+                stepnow.Value--;
+            }
+            catch
+            {
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            numericUpDown1.Value++;
-            numericUpDown1_ValueChanged(sender, e);
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            numericUpDown1.Value = maxstep;
-            numericUpDown1_ValueChanged(sender, e);
+            }
         }
     }
 }
