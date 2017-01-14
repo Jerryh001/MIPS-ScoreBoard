@@ -9,50 +9,53 @@ namespace MIPS_ScoreBoard
 {
     static class SBAlgo
     {
-        static public uint Slove(int s=-1)
+        static uint step;
+        static public uint Slove(int s = -1)
         {
-            uint step = 1;
+            step = 1;
             for (; !InstructionSet.NotThingToDo(); step++)
             {
                 if (s >= 0 && step > s)
                 {
                     return step;
                 }
-                TryIssue(step);
-                TryReadOperand(step);
-                TryExecute(step);
-                TryWriteResult(step);
-                EndOfStep(step);
+                TryIssue();
+                TryReadOperand();
+                TryExecute();
+                TryWriteResult();
+                EndOfStep();
             }
-            return step-1;
+            DifftableList.SetTips(step-1, "DONE!!");
+            return step - 1;
         }
 
-        static void TryWriteResult(uint step)
+        static void TryWriteResult()
         {
-            foreach(FunctionalUnit f in AllFunction.Func)
+            foreach (FunctionalUnit f in AllFunction.Func)
             {
-                if(f.Line!=0)
+                if (f.Line != 0)
                 {
                     Instruction ins = InstructionSet.GetInstruction(f.Line);
                     if (ins.CanWriteResult(step) && f.NotCauseRAW(step))
                     {
-                        WriteResult(ins, f, step);
+                        WriteResult(ins, f);
                     }
                 }
-                
+
             }
         }
 
-        
 
-        private static void WriteResult(Instruction ins,FunctionalUnit f,uint step)
+
+        private static void WriteResult(Instruction ins, FunctionalUnit f)
         {
+            DifftableList.SetTips(step, ins.OP + " #" + ins.line + " writes " + ins.Dest+".");
             ins.WriteResult(step);
             DifftableList.SetValueReg(step, f.Fi, "");
             RegisterSet.Clear(f.Fi);
             f.WriteResult(step);
         }
-        static void TryExecute(uint step)
+        static void TryExecute()
         {
             foreach (FunctionalUnit f in AllFunction.Func)
             {
@@ -66,26 +69,47 @@ namespace MIPS_ScoreBoard
                 }
             }
         }
-        static void TryReadOperand(uint step)
+        static void TryReadOperand()
         {
             foreach (FunctionalUnit f in AllFunction.Func)
             {
                 if (f.Line != 0)
                 {
                     Instruction ins = InstructionSet.GetInstruction(f.Line);
-                    if (CanRead(ins, f, step))
+                    if (CanRead(ins, f))
                     {
+                        DifftableList.SetTips(step, ins.OP + " #" + ins.line + " reads operands");
                         ins.ReadOperand(step);
                     }
                 }
             }
         }
 
-        private static bool CanRead(Instruction ins, FunctionalUnit f, uint step)
+        private static bool CanRead(Instruction ins, FunctionalUnit f)
         {
-            return ins.GetStage("IS") < step && ins.GetStage("RO") == 0 && f.Rj && f.Rk;
+            if (ins.GetStage("IS") < step && ins.GetStage("RO") == 0)
+            {
+                if (f.Rj && f.Rk)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (!f.Rj)
+                    {
+                        FunctionalUnit f1 = AllFunction.GetFunctionUnitName(f.GetData("Qj"));
+                        DifftableList.SetTips(step, ins.OP + " #" + ins.line + " can\'t read its operands(" + f.Fj + ") because " + f1.Op + " #" + f1.Line + " hasn\'t finished.--> avoid RAW");
+                    }
+                    if (!f.Rk)
+                    {
+                        FunctionalUnit f1 = AllFunction.GetFunctionUnitName(f.GetData("Qk"));
+                        DifftableList.SetTips(step, ins.OP + " #" + ins.line + " can\'t read its operands(" + f.Fk + ") because " + f1.Op + " #" + f1.Line + " hasn\'t finished.--> avoid RAW");
+                    }
+                }
+            }
+            return false;
         }
-        static void EndOfStep(uint step)
+        static void EndOfStep()
         {
             foreach (FunctionalUnit f in AllFunction.Func)
             {
@@ -94,7 +118,7 @@ namespace MIPS_ScoreBoard
             }
         }
 
-        static void TryIssue(uint step)
+        static void TryIssue()
         {
             foreach (Instruction ins in InstructionSet.instruction)
             {
@@ -103,7 +127,8 @@ namespace MIPS_ScoreBoard
                     FunctionalUnit f = AllFunction.GetFunctionUnit(ins);
                     if (CanIssue(ins, f))
                     {
-                        Issue(ins, f, step);
+                        DifftableList.SetTips(step, "Issue " + ins.OP + " #" + ins.line);
+                        Issue(ins, f);
 
                     }
                     return;
@@ -111,9 +136,9 @@ namespace MIPS_ScoreBoard
             }
         }
 
-        static void Issue(Instruction ins, FunctionalUnit f, uint step)
+        static void Issue(Instruction ins, FunctionalUnit f)
         {
-            f.Issue(ins,step);
+            f.Issue(ins, step);
             ins.Issue(step);
             DifftableList.SetValueReg(step, ins.Dest, f.GetData("Name"));
             RegisterSet.Set(ins.Dest, f.GetData("Name"));
@@ -121,7 +146,22 @@ namespace MIPS_ScoreBoard
 
         static bool CanIssue(Instruction ins, FunctionalUnit f)
         {
-            return f.Busy == false && RegisterSet.Get(ins.Dest) == "";
+            if (f.Busy == false)
+            {
+                string name = RegisterSet.Get(ins.Dest);
+                if (name != "")
+                {
+                    DifftableList.SetTips(step, ins.OP + " #" + ins.line + "can\'t issue because destination(" + ins.Dest + ") hasn\'t freed.--> avoid WAW");
+
+                    return false;
+                }
+                return true;
+            }
+            else
+            {
+                DifftableList.SetTips(step, ins.OP + " #" + ins.line + "can\'t issue since " + f.GetData("Name") + " unit is busy.");
+                return false;
+            }
         }
     }
 }

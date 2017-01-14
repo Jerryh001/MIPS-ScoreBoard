@@ -17,7 +17,7 @@ namespace MIPS_ScoreBoard
         public factor Fk { get { return Line > 0 ? InstructionSet.GetInstruction(Line).S2 : new factor(); } }
         public string Op { get { return Line > 0 ? InstructionSet.GetInstruction(Line).OP : ""; } }
         uint Time = 0;
-        uint Period;
+        public uint Period;
         Dictionary<string, string> Data = new Dictionary<string, string>();
         public FunctionalUnit(string name, uint p)
         {
@@ -70,6 +70,7 @@ namespace MIPS_ScoreBoard
                 Instruction ins = InstructionSet.GetInstruction(f1.Line);
                 if (Line > f1.Line && (Fi.Equals(f1.Fj) || Fi.Equals(f1.Fk)) && (ins.GetStage("RO") == 0 || ins.GetStage("RO") == step))
                 {
+                    DifftableList.SetTips(step, f1.Op+" can\'t write because of "+ins.OP+".-->avoid WAR");
                     return false;
                 }
             }
@@ -116,6 +117,7 @@ namespace MIPS_ScoreBoard
                 Time--;
                 if (Time == 0)
                 {
+                    DifftableList.SetTips(step, Op+" #" + Line + " completes execution.");
                     Instruction ins = InstructionSet.GetInstruction(Line);
                     ins.ExecuteComp(step);
                 }

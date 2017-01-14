@@ -48,33 +48,35 @@
             System.Windows.Forms.ColumnHeader Header_Rj;
             System.Windows.Forms.ColumnHeader Header_Rk;
             System.Windows.Forms.ColumnHeader Header_Line;
-            System.Windows.Forms.ListViewGroup listViewGroup19 = new System.Windows.Forms.ListViewGroup("已執行完成", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup20 = new System.Windows.Forms.ListViewGroup("執行中", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup21 = new System.Windows.Forms.ListViewGroup("等待隊列中", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem("Integer");
-            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem("Mult1");
-            System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem("Mult2");
-            System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem("Add");
-            System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem("Divide");
+            System.Windows.Forms.ListViewGroup listViewGroup13 = new System.Windows.Forms.ListViewGroup("已執行完成", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup14 = new System.Windows.Forms.ListViewGroup("執行中", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup15 = new System.Windows.Forms.ListViewGroup("等待隊列中", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.Panel panel1;
+            System.Windows.Forms.GroupBox groupBox1;
+            System.Windows.Forms.Panel panel5;
+            System.Windows.Forms.Panel panel4;
+            System.Windows.Forms.Panel panel3;
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("Integer");
+            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("Mult1");
+            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("Mult2");
+            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("Add");
+            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("Divide");
+            System.Windows.Forms.Panel panel2;
+            System.Windows.Forms.GroupBox groupBox2;
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.InstructionStatus = new System.Windows.Forms.ListView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.button_last = new System.Windows.Forms.Button();
             this.button_next = new System.Windows.Forms.Button();
             this.button_back = new System.Windows.Forms.Button();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.skipbox = new System.Windows.Forms.CheckBox();
             this.button_first = new System.Windows.Forms.Button();
             this.button_open = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
             this.stepnow = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.totalstep = new System.Windows.Forms.Label();
             this.FunctionalUnitStatus = new System.Windows.Forms.ListView();
             this.RegisterResultStatus = new System.Windows.Forms.ListView();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.tiptext = new System.Windows.Forms.Label();
             Header_Instruction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             Header_i = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             Header_j = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -95,13 +97,22 @@
             Header_Rj = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             Header_Rk = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             Header_Line = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.panel5.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel3.SuspendLayout();
+            panel1 = new System.Windows.Forms.Panel();
+            groupBox1 = new System.Windows.Forms.GroupBox();
+            panel5 = new System.Windows.Forms.Panel();
+            panel4 = new System.Windows.Forms.Panel();
+            panel3 = new System.Windows.Forms.Panel();
+            label1 = new System.Windows.Forms.Label();
+            panel2 = new System.Windows.Forms.Panel();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            panel1.SuspendLayout();
+            groupBox1.SuspendLayout();
+            panel5.SuspendLayout();
+            panel4.SuspendLayout();
+            panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stepnow)).BeginInit();
-            this.panel2.SuspendLayout();
+            panel2.SuspendLayout();
+            groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // Header_Instruction
@@ -223,24 +234,24 @@
             Header_ReadOperand,
             Header_ExecutionComplete,
             Header_WriteResult});
-            this.InstructionStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.InstructionStatus.Dock = System.Windows.Forms.DockStyle.Left;
             this.InstructionStatus.FullRowSelect = true;
             this.InstructionStatus.GridLines = true;
-            listViewGroup19.Header = "已執行完成";
-            listViewGroup19.Name = "Group_Complete";
-            listViewGroup20.Header = "執行中";
-            listViewGroup20.Name = "Group_CPU";
-            listViewGroup21.Header = "等待隊列中";
-            listViewGroup21.Name = "Group_Queue";
+            listViewGroup13.Header = "已執行完成";
+            listViewGroup13.Name = "Group_Complete";
+            listViewGroup14.Header = "執行中";
+            listViewGroup14.Name = "Group_CPU";
+            listViewGroup15.Header = "等待隊列中";
+            listViewGroup15.Name = "Group_Queue";
             this.InstructionStatus.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup19,
-            listViewGroup20,
-            listViewGroup21});
+            listViewGroup13,
+            listViewGroup14,
+            listViewGroup15});
             this.InstructionStatus.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.InstructionStatus.Location = new System.Drawing.Point(0, 0);
             this.InstructionStatus.MultiSelect = false;
             this.InstructionStatus.Name = "InstructionStatus";
-            this.InstructionStatus.Size = new System.Drawing.Size(897, 266);
+            this.InstructionStatus.Size = new System.Drawing.Size(635, 266);
             this.InstructionStatus.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.InstructionStatus.TabIndex = 1;
             this.InstructionStatus.TabStop = false;
@@ -249,36 +260,37 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.InstructionStatus);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(897, 266);
-            this.panel1.TabIndex = 3;
+            panel1.Controls.Add(groupBox2);
+            panel1.Controls.Add(this.InstructionStatus);
+            panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(897, 266);
+            panel1.TabIndex = 3;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.panel5);
-            this.groupBox1.Controls.Add(this.panel4);
-            this.groupBox1.Controls.Add(this.panel3);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(635, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(262, 109);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
+            groupBox1.Controls.Add(panel5);
+            groupBox1.Controls.Add(panel4);
+            groupBox1.Controls.Add(panel3);
+            groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            groupBox1.Location = new System.Drawing.Point(635, 0);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(262, 109);
+            groupBox1.TabIndex = 4;
+            groupBox1.TabStop = false;
             // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.button_last);
-            this.panel5.Controls.Add(this.button_next);
-            this.panel5.Controls.Add(this.button_back);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(3, 48);
-            this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(5);
-            this.panel5.Size = new System.Drawing.Size(256, 33);
-            this.panel5.TabIndex = 2;
+            panel5.Controls.Add(this.button_last);
+            panel5.Controls.Add(this.button_next);
+            panel5.Controls.Add(this.button_back);
+            panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel5.Location = new System.Drawing.Point(3, 48);
+            panel5.Name = "panel5";
+            panel5.Padding = new System.Windows.Forms.Padding(5);
+            panel5.Size = new System.Drawing.Size(256, 33);
+            panel5.TabIndex = 2;
             // 
             // button_last
             // 
@@ -315,16 +327,16 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.skipbox);
-            this.panel4.Controls.Add(this.button_first);
-            this.panel4.Controls.Add(this.button_open);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(3, 18);
-            this.panel4.Margin = new System.Windows.Forms.Padding(0);
-            this.panel4.Name = "panel4";
-            this.panel4.Padding = new System.Windows.Forms.Padding(5);
-            this.panel4.Size = new System.Drawing.Size(256, 30);
-            this.panel4.TabIndex = 14;
+            panel4.Controls.Add(this.skipbox);
+            panel4.Controls.Add(this.button_first);
+            panel4.Controls.Add(this.button_open);
+            panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            panel4.Location = new System.Drawing.Point(3, 18);
+            panel4.Margin = new System.Windows.Forms.Padding(0);
+            panel4.Name = "panel4";
+            panel4.Padding = new System.Windows.Forms.Padding(5);
+            panel4.Size = new System.Drawing.Size(256, 30);
+            panel4.TabIndex = 14;
             // 
             // skipbox
             // 
@@ -362,14 +374,14 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.stepnow);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(3, 81);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(256, 25);
-            this.panel3.TabIndex = 9;
+            panel3.Controls.Add(this.stepnow);
+            panel3.Controls.Add(this.totalstep);
+            panel3.Controls.Add(label1);
+            panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            panel3.Location = new System.Drawing.Point(3, 81);
+            panel3.Name = "panel3";
+            panel3.Size = new System.Drawing.Size(256, 25);
+            panel3.TabIndex = 9;
             // 
             // stepnow
             // 
@@ -388,27 +400,27 @@
             this.stepnow.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.stepnow.ValueChanged += new System.EventHandler(this.stepnow_ValueChanged);
             // 
-            // label2
+            // totalstep
             // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label2.Location = new System.Drawing.Point(214, 0);
-            this.label2.Name = "label2";
-            this.label2.Padding = new System.Windows.Forms.Padding(5);
-            this.label2.Size = new System.Drawing.Size(42, 22);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "/9487";
+            this.totalstep.AutoSize = true;
+            this.totalstep.Dock = System.Windows.Forms.DockStyle.Right;
+            this.totalstep.Location = new System.Drawing.Point(214, 0);
+            this.totalstep.Name = "totalstep";
+            this.totalstep.Padding = new System.Windows.Forms.Padding(5);
+            this.totalstep.Size = new System.Drawing.Size(42, 22);
+            this.totalstep.TabIndex = 8;
+            this.totalstep.Text = "/9487";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(5);
-            this.label1.Size = new System.Drawing.Size(38, 22);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Step:";
+            label1.AutoSize = true;
+            label1.Dock = System.Windows.Forms.DockStyle.Left;
+            label1.Location = new System.Drawing.Point(0, 0);
+            label1.Name = "label1";
+            label1.Padding = new System.Windows.Forms.Padding(5);
+            label1.Size = new System.Drawing.Size(38, 22);
+            label1.TabIndex = 0;
+            label1.Text = "Step:";
             // 
             // FunctionalUnitStatus
             // 
@@ -430,17 +442,17 @@
             this.FunctionalUnitStatus.FullRowSelect = true;
             this.FunctionalUnitStatus.GridLines = true;
             this.FunctionalUnitStatus.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            listViewItem31.UseItemStyleForSubItems = false;
-            listViewItem32.UseItemStyleForSubItems = false;
-            listViewItem33.UseItemStyleForSubItems = false;
-            listViewItem34.UseItemStyleForSubItems = false;
-            listViewItem35.UseItemStyleForSubItems = false;
+            listViewItem21.UseItemStyleForSubItems = false;
+            listViewItem22.UseItemStyleForSubItems = false;
+            listViewItem23.UseItemStyleForSubItems = false;
+            listViewItem24.UseItemStyleForSubItems = false;
+            listViewItem25.UseItemStyleForSubItems = false;
             this.FunctionalUnitStatus.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem31,
-            listViewItem32,
-            listViewItem33,
-            listViewItem34,
-            listViewItem35});
+            listViewItem21,
+            listViewItem22,
+            listViewItem23,
+            listViewItem24,
+            listViewItem25});
             this.FunctionalUnitStatus.LabelWrap = false;
             this.FunctionalUnitStatus.Location = new System.Drawing.Point(0, 0);
             this.FunctionalUnitStatus.MultiSelect = false;
@@ -472,13 +484,35 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Controls.Add(this.FunctionalUnitStatus);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 266);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(897, 109);
-            this.panel2.TabIndex = 8;
+            panel2.Controls.Add(groupBox1);
+            panel2.Controls.Add(this.FunctionalUnitStatus);
+            panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            panel2.Location = new System.Drawing.Point(0, 266);
+            panel2.Name = "panel2";
+            panel2.Size = new System.Drawing.Size(897, 109);
+            panel2.TabIndex = 8;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(this.tiptext);
+            groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            groupBox2.Location = new System.Drawing.Point(635, 0);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new System.Drawing.Size(262, 266);
+            groupBox2.TabIndex = 2;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "小提醒：";
+            // 
+            // tiptext
+            // 
+            this.tiptext.AutoSize = true;
+            this.tiptext.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tiptext.Font = new System.Drawing.Font("新細明體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.tiptext.Location = new System.Drawing.Point(3, 18);
+            this.tiptext.MaximumSize = new System.Drawing.Size(250, 0);
+            this.tiptext.Name = "tiptext";
+            this.tiptext.Size = new System.Drawing.Size(0, 16);
+            this.tiptext.TabIndex = 0;
             // 
             // Form1
             // 
@@ -486,8 +520,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(897, 418);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(panel1);
+            this.Controls.Add(panel2);
             this.Controls.Add(this.RegisterResultStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -495,15 +529,17 @@
             this.ShowIcon = false;
             this.Text = "ScoreBoard";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            panel1.ResumeLayout(false);
+            groupBox1.ResumeLayout(false);
+            panel5.ResumeLayout(false);
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stepnow)).EndInit();
-            this.panel2.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -512,23 +548,17 @@
 
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ListView InstructionStatus;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView FunctionalUnitStatus;
         private System.Windows.Forms.ListView RegisterResultStatus;
         private System.Windows.Forms.NumericUpDown stepnow;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button button_open;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label totalstep;
         private System.Windows.Forms.Button button_first;
         private System.Windows.Forms.Button button_last;
         private System.Windows.Forms.Button button_next;
         private System.Windows.Forms.Button button_back;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.CheckBox skipbox;
+        private System.Windows.Forms.Label tiptext;
     }
 }
 

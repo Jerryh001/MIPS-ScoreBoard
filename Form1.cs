@@ -33,7 +33,7 @@ namespace MIPS_ScoreBoard
                 Header.Width = 50;
                 RegisterResultStatus.Columns.Add(Header);
             }
-            label2.Text = "/"+maxstep.ToString();
+            totalstep.Text = "/"+maxstep.ToString();
         }
         private void button_open_Click(object sender, EventArgs e)
         {
@@ -47,7 +47,8 @@ namespace MIPS_ScoreBoard
                 Display.ShowInstruction(InstructionStatus);
                 maxstep = SBAlgo.Slove();
                 Display.Update(InstructionStatus, FunctionalUnitStatus, RegisterResultStatus);
-                label2.Text = "/" + maxstep.ToString();
+                tiptext.Text = DifftableList.tips[Convert.ToInt32(maxstep)];
+                totalstep.Text = "/" + maxstep.ToString();
                 stepnow.Maximum = maxstep;
                 stepnow.Value = now = maxstep;
             }
@@ -57,6 +58,7 @@ namespace MIPS_ScoreBoard
         {
             DifftableList.Goto(now, Convert.ToUInt32(stepnow.Value));
             Display.Update(InstructionStatus, FunctionalUnitStatus, RegisterResultStatus);
+            tiptext.Text = DifftableList.tips[Convert.ToInt32(stepnow.Value)];
             while (skipbox.Checked&&Display.NothingChange)
             {
                 if(now > Convert.ToUInt32(stepnow.Value))

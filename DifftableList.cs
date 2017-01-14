@@ -10,6 +10,7 @@ namespace MIPS_ScoreBoard
     static class DifftableList
     {
         static List<Difftable> Table = new List<Difftable>();
+        public static List<string> tips = new List<string>();
         static public void SetValueIns(uint step,uint line, string colnum, uint value)
         {
             SizeCheck(step);
@@ -25,11 +26,20 @@ namespace MIPS_ScoreBoard
             SizeCheck(step);
             Table[Convert.ToInt32(step - 1)].SetValueReg(dest,v);
         }
+        static public void SetTips(uint step,string m)
+        {
+            SizeCheck(step);
+            tips[Convert.ToInt32(step)] += m+ "\r\n\r\n";
+        }
         private static void SizeCheck(uint size)
         {
             while(Table.Count<size)
             {
                 Table.Add(new Difftable());
+            }
+            while (tips.Count <= size)
+            {
+                tips.Add("");
             }
         }
         static public void Goto(uint start,uint end)
@@ -76,6 +86,13 @@ namespace MIPS_ScoreBoard
         internal static void Init()
         {
             Table = new List<Difftable>();
+            tips = new List<string>();
+            string s = "Latencies (clock cycles):\r\n";
+            foreach (FunctionalUnit f in AllFunction.Func)
+            {
+                s += f.GetData("Name") + ":" + f.Period.ToString() + "\r\n";
+            }
+            tips.Add(s);
         }
     }
 }

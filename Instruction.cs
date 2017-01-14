@@ -121,6 +121,7 @@ namespace MIPS_ScoreBoard
 
         internal void Issue(uint step)
         {
+
             DifftableList.SetValueIns(step,line, "IS", step);
             Stage["IS"] = step;
         }
